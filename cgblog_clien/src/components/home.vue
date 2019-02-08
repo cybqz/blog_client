@@ -154,7 +154,7 @@ export default {
 				name:'我的',
 				num:1
 			},{
-				name:'趣友1',
+				name:'趣友',
 				num:2
 			}],
 			formLogin: {
