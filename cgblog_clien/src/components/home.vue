@@ -212,7 +212,8 @@ export default {
 								let data = response.data;
 								if(data.validate){
 									this.loginModal=false;
-									this.logined=true;
+                                    this.logined=true;
+                                    localStorage.setItem('user',JSON.stringify(data.data));
 									this.$Message.success(data.msg);
 								}else{
 									this.$Message.error(data.msg);
@@ -265,7 +266,8 @@ export default {
 				if( response.status == 200){
 					let data = response.data;
 					if(data.validate){
-						this.logined=false;
+                        this.logined=false;
+                        localStorage.removeItem('user');
 						this.$Message.success(data.msg);
 					}else{
 						this.$Message.error(data.msg);
@@ -278,7 +280,28 @@ export default {
 			})
 		}
   },
-  mounted() {
+  beforeMount(){
+      //查询、设置用户登录状态
+      let url = this.$axios.defaults.baseURL + "loginController/getUser";
+          let param = this.formLogin;
+          this.$axios({method:'post', url:url, data:null})
+          .then((response) => {
+              if( response.status == 200){
+                  let data = response.data;
+                  if(data == null || data === ''){
+                      localStorage.removeItem('user');
+                  }else{
+                      this.logined=true;
+                      localStorage.setItem('user',JSON.stringify(data));
+                  }
+              }else{
+                  this.$Message.error('Fail!');
+              }
+       }).catch((error) => {
+            console.log(error);
+       })
+  },
+  mounted(){
 	this.changeNavTab(0);
   	
   }
