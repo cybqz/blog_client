@@ -37,7 +37,7 @@
 			<router-view/>
 		</div>
 		<Modal
-        v-model="loginModal1"
+        v-model="loginModal"
         title=""
         width="400">
         <p slot="header" style="color:#f60;text-align:center">
