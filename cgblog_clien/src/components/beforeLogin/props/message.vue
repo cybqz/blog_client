@@ -2,7 +2,7 @@
 	<div>
         <div class="comments">
             <Input class="textarea" v-model="message" type="textarea" placeholder="说出来.........."
-                   :border="{size:0}" :autosize="{minRows: 8,maxRows: 8}" />
+                   :border="{size:0}" :autosize="{minRows: 4,maxRows: 4}" />
             <div class="info">
                 <span class="left">
                     <Poptip placement="bottom-start" width="400">
@@ -113,7 +113,8 @@ export default {
             border-top: 1px solid #ccc;
             .right, .left{
                 flex: 1;
-                font-size: 25px;
+                font-size: 16px;
+				line-height: 40px;
             }
             .organe{
                 color: orange;
@@ -130,7 +131,7 @@ export default {
                 span{
                     flex: 1;
                     .icon{
-                        font-size: 30px;
+                        font-size: 22px;
                         vertical-align: middle;
                         margin-right: 5px;
                         &.gost{
