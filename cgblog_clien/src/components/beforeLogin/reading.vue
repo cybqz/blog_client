@@ -17,10 +17,10 @@
                                     <div class="msg eclipes2">荐语：{{item.recommend}}</div>
                                     <div class="about">
                                         <span class="area">
-                                            <span class="mr5"><Icon @click="doComment(item.id)" class='icon red pointer' type="ios-text" /></span>{{item.commentCount}}
+                                            <span class="mr5"><Icon @click="doComment(item.id)" :class="logined?(item.comment?'gost':'red') :'gost'" class='icon pointer' type="ios-text" /></span>{{item.commentCount}}
                                         </span>
                                         <span class="area">
-                                            <span class="mr5"><Icon @click="doFablous(item.id)" class='icon red pointer' type="ios-heart" /></span>{{item.fablousCount}}
+                                            <span class="mr5"><Icon @click="doFablous(item.id)" :class="logined?(item.fablous?'gost':'red') :'gost'" class='icon pointer' type="ios-heart" /></span>{{item.fablousCount}}
                                         </span>
                                     </div>
                                 </div>
@@ -44,10 +44,10 @@
                                 <div class="msg eclipes2">荐语：{{item.recommend}}</div>
                                 <div class="about">
                                     <span class="area">
-                                        <span class="mr5"><Icon @click="doComment(item.id)" class='icon red pointer' type="ios-text" /></span>{{item.commentCount}}
+                                        <span class="mr5"><Icon @click="doComment(item.id)" :class="logined?(item.comment?'gost':'red') :'gost'" class='icon pointer' type="ios-text" /></span>{{item.commentCount}}
                                     </span>
                                     <span class="area">
-                                        <span class="mr5"><Icon @click="doFablous(item.id)" class='icon red pointer' type="ios-heart" /></span>{{item.fablousCount}}
+                                        <span class="mr5"><Icon @click="doFablous(item.id)" :class="logined?(item.fablous?'gost':'red') :'gost'" class='icon pointer' type="ios-heart" /></span>{{item.fablousCount}}
                                     </span>
                                 </div>
                             </div>
@@ -71,10 +71,10 @@
                                 <div class="msg eclipes2">荐语：{{item.recommend}}</div>
                                 <div class="about">
                                     <span class="area">
-                                        <span class="mr5"><Icon @click="doComment(item.id)" class='icon red pointer' type="ios-text" /></span>{{item.commentCount}}
+                                        <span class="mr5"><Icon @click="doComment(item.id)" :class="logined?(item.comment?'gost':'red') :'gost'" class='icon pointer' type="ios-text" /></span>{{item.commentCount}}
                                     </span>
                                     <span class="area">
-                                        <span class="mr5"><Icon @click="doFablous(item.id)" class='icon red pointer' type="ios-heart" /></span>{{item.fablousCount}}
+                                        <span class="mr5"><Icon @click="doFablous(item.id)" :class="logined?(item.fablous?'gost':'red') :'gost'" class='icon pointer' type="ios-heart" /></span>{{item.fablousCount}}
                                     </span>
                                 </div>
                             </div>
@@ -97,6 +97,7 @@ export default {
         controller:'readingController/',
         collapse:'moviepanel',
         scrollHeight:450,
+        logined:false,
         movieData:[],
         musicData:[],
         bookData:[],
@@ -166,21 +167,39 @@ export default {
                         if(this.currentPanel === 'moviepanel'){
                             for(var i in this.movieData){
                                 if(this.movieData[i].id == id){
-                                    ++ this.movieData[i].fablousCount;
+                                    if(this.movieData[i].fablous){
+                                        this.movieData[i].fablous = false;
+                                        ++this.movieData[i].fablousCount;
+                                    }else{
+                                        this.movieData[i].fablous = true;
+                                        --this.movieData[i].fablousCount;
+                                    }
                                     return;
                                 }
                             }
                         }else if(this.currentPanel === 'musicpanel'){
                             for(var i in this.musicData){
                                 if(this.musicData[i].id == id){
-                                    ++ this.musicData[i].fablousCount;
+                                    if(this.musicData[i].fablous){
+                                        this.musicData[i].fablous = false;
+                                        ++this.musicData[i].fablousCount;
+                                    }else{
+                                        this.musicData[i].fablous = true;
+                                        --this.musicData[i].fablousCount;
+                                    }
                                     return;
                                 }
                             }
                         }else{
                             for(var i in this.bookData){
                                 if(this.bookData[i].id == id){
-                                    ++ this.bookData[i].fablousCount;
+                                    if(this.bookData[i].fablous){
+                                        this.bookData[i].fablous = false;
+                                        ++this.bookData[i].fablousCount;
+                                    }else{
+                                        this.bookData[i].fablous = true;
+                                        --this.bookData[i].fablousCount;
+                                    }
                                     return;
                                 }
                             }
@@ -196,6 +215,9 @@ export default {
                 console.log(error)
             })
         }
+    },
+    beforeMount(){
+        this.logined= !localStorage.getItem('user')?false:true;
     },
     mounted() {
 		this.getData();
