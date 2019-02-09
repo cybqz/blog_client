@@ -173,17 +173,12 @@ export default {
   methods:{
 		changeNavTab(num){
 			this.tabActive = num;
-			if(!this.logined){
-				this.$router.push({
-					path: '/home/beforeLogin',
-					query: {
-						tabId: num
-					}
-				})
-			}else{
-				//登录后根据id跳转不同的路径
-				
-			}
+			this.$router.push({
+				path: '/home/beforeLogin',
+				query: {
+					tabId: num
+				}
+			})
 		},
 		handleLogin(formLogin) {
 			this.$refs[formLogin].validate((valid) => {
