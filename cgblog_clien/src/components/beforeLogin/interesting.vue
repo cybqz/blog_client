@@ -18,8 +18,8 @@
 									作者：<span class="organe pointer">{{item.author}}</span>
 								</span>
 								<span class="right">
-									<span><Icon @click="doComment(item.id)" class='icon red pointer' type="ios-text" />{{item.commentCount}}</span>
-									<span><Icon @click="doFablous(item.id)" class='icon red pointer' type="ios-heart" />{{item.fablousCount}}</span>
+									<span><Icon @click="doComment(item.id)" :class="(logined && (logined && item.comment))?'gost' :'red'" class='icon pointer' type="ios-text" />{{item.commentCount}}</span>
+									<span><Icon @click="doFablous(item.id)" :class="(logined && (logined && item.fablous))?'gost' :'red'" class='icon pointer' type="ios-heart" />{{item.fablousCount}}</span>
 								</span>
 							</div>
 							<div v-if='true' class="space">
@@ -44,7 +44,8 @@ export default {
         pageSize:10,
         pageNo:1,
         data:[],
-        continueGetData:true
+        continueGetData:true,
+        logined:false,
     }
   },
   watch:{
@@ -93,7 +94,13 @@ export default {
                     if(data.validate){
                         for(var i in this.data){
                             if(this.data[i].id == id){
-                                ++ this.data[i].fablousCount;
+                                if(this.data[i].fablous){
+                                    this.data[i].fablous = false;
+                                    ++this.data[i].fablousCount;
+                                }else{
+                                    this.data[i].fablous = true;
+                                    --this.data[i].fablousCount;
+                                }
                                 return;
                             }
                         }
@@ -108,6 +115,9 @@ export default {
                 console.log(error)
             })
         }
+    },
+    beforeMount(){
+        this.logined= !localStorage.getItem('user')?false:true;
     },
 	mounted() {
 		this.getData();
