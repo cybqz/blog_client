@@ -18,8 +18,8 @@
 									作者：<span class="organe pointer">{{item.author}}</span>
 								</span>
 								<span class="right">
-									<span><Icon @click="doComment(item.id)" :class="(logined && (logined && item.comment))?'gost' :'red'" class='icon pointer' type="ios-text" />{{item.commentCount}}</span>
-									<span><Icon @click="doFablous(item.id)" :class="(logined && (logined && item.fablous))?'gost' :'red'" class='icon pointer' type="ios-heart" />{{item.fablousCount}}</span>
+									<span><Icon @click="doComment(item.id)"  class='icon gost pointer' type="ios-text" />{{item.commentCount}}</span>
+									<span><Icon @click="doFablous(item.id)" :class="logined?(item.fablous?'gost':'red') :'gost'" class='icon pointer' type="ios-heart" />{{item.fablousCount}}</span>
 								</span>
 							</div>
 							<div v-if='true' class="space">
