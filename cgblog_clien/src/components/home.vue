@@ -138,7 +138,7 @@ export default {
 				name:'点途',
 				num:3
 			},{
-				name:'点知',
+				name:'点知ya',
 				num:4
 			},{
 				name:'个人日记',
