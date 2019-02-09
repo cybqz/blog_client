@@ -4,16 +4,11 @@
 			<div class="top" >
 				<div class="logo">
 				</div>
-				<div v-show="!logined" class="nav">
+				<div class="nav">
 					<div v-for="(item,index) in navTabs" :class="index == tabActive?'active':''">
 						<span @click="changeNavTab(item.num)">
 							{{item.name}}
 						</span>
-					</div>
-				</div>
-				<div v-show="logined" class="nav">
-					<div v-for="(item,index) in loginNavTabs" :class="index == tabActive?'active':''">
-						<span @click="changeNavTab(item.num)">{{item.name}}</span>
 					</div>
 				</div>
 				<div class="search">
@@ -146,16 +141,6 @@ export default {
 			},{
 				name:'留言板',
 				num:6
-			}],
-			loginNavTabs:[{
-				name:'发现',
-				num:0
-			},{
-				name:'我的',
-				num:1
-			},{
-				name:'趣友',
-				num:2
 			}],
 			formLogin: {
 					userName: '',
