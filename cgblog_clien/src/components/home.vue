@@ -21,9 +21,18 @@
 					</div>
 					<div v-show="logined">
                         <span class="login-text">
-                            <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />&nbsp;
-                            {{formLogin.userName}}</span>
-						<span class="login-text" @click="logout()">退出</span>
+                            <Dropdown trigger="click" style="margin-left: 20px">
+                                <a href="javascript:void(0)">
+                                    <Avatar :src="this.$axios.defaults.baseURL+this.user.image" />&nbsp;
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem>欢迎：{{formLogin.userName}}</DropdownItem>
+                                    <DropdownItem @click.native="userCenter()">个人中心</DropdownItem>
+                                    <DropdownItem @click.native="openingVIP()">开通VIP</DropdownItem>
+                                    <DropdownItem @click.native="logout()">退出</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </span>
 					</div>
 				</div>
 			</div>
@@ -39,18 +48,18 @@
             <span>欢迎登陆</span>
         </p>
         <div style="text-align:center">
-					<Form ref="formLogin" :model="formLogin" :rules="rulesLogin" inline>
-						<FormItem prop="user">
-								<Input type="text" v-model="formLogin.userName" placeholder="Username">
-										<Icon type="ios-person-outline" slot="prepend"></Icon>
-								</Input>
-						</FormItem>
-						<FormItem prop="password">
-								<Input type="password" v-model="formLogin.password" placeholder="Password">
-										<Icon type="ios-lock-outline" slot="prepend"></Icon>
-								</Input>
-						</FormItem>
-					</Form>
+            <Form ref="formLogin" :model="formLogin" :rules="rulesLogin" inline>
+                <FormItem prop="user">
+                    <Input type="text" v-model="formLogin.userName" placeholder="Username">
+                        <Icon type="ios-person-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+                <FormItem prop="password">
+                    <Input type="password" v-model="formLogin.password" placeholder="Password">
+                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                    </Input>
+                </FormItem>
+            </Form>
         </div>
         <div slot="footer">
             <Button size="large" long :loading="login_loading" @click="handleLogin('formLogin')">登录</Button>
@@ -64,23 +73,29 @@
 		        <span>欢迎注册</span>
 		    </p>
 		    <div style="text-align:center">
-					<Form ref="formRegister" :model="formRegister" :rules="rulesRegister" inline>
-						<FormItem prop="user">
-								<Input type="text" v-model="formRegister.userName" placeholder="Username">
-										<Icon type="ios-person-outline" slot="prepend"></Icon>
-								</Input>
-						</FormItem>
-						<FormItem prop="password">
-								<Input type="password" v-model="formRegister.password" prop="password" placeholder="Password">
-										<Icon type="ios-lock-outline" slot="prepend"></Icon>
-								</Input>
-						</FormItem>
-						<FormItem prop="confirmpassword">
-								<Input type="password" v-model="formRegister.confirmpassword" prop="confirmpassword" placeholder="Confirm Password">
-										<Icon type="ios-lock-outline" slot="prepend"></Icon>
-								</Input>
-						</FormItem>
-					</Form>
+                <Form ref="formRegister" :model="formRegister" :rules="rulesRegister" inline>
+                    <FormItem prop="userName">
+                        <Input type="text" v-model="formRegister.userName" placeholder="Username">
+                            <Icon type="ios-person-outline" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem prop="sex">
+                        <Select v-model="formRegister.sex" placeholder="性别">
+                            <Option value="1" selected>男</Option>
+                            <Option value="0">女</Option>
+                        </Select>
+                    </FormItem>
+                    <FormItem prop="password">
+                        <Input type="password" v-model="formRegister.password" prop="password" placeholder="Password">
+                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem prop="confirmpassword">
+                        <Input type="password" v-model="formRegister.confirmpassword" prop="confirmpassword" placeholder="Confirm Password">
+                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                </Form>
 		    </div>
 		    <div slot="footer">
 		        <Button size="large" long :loading="register_loading" @click="handleRegister('formRegister')">注册</Button>
@@ -114,6 +129,7 @@ export default {
 			}
 		};
     return {
+            user:{id:'',name:'',phone:'',email:'',image:''},
 			logined:false,
             tabActive:0,
 			loginModal:false,
@@ -171,6 +187,16 @@ export default {
   },
   watch:{},
   methods:{
+        userCenter(){
+           this.$router.push({
+			   path: '/home/userCenter',
+		   })     
+        },
+        openingVIP(){
+            this.$router.push({
+			   path: '/home/openingVIP',
+		    }) 
+        },
 		changeNavTab(num){
 			this.tabActive = num;
 			this.$router.push({
@@ -191,8 +217,9 @@ export default {
 							if( response.status == 200){
 								let data = response.data;
 								if(data.validate){
-									this.loginModal=false;
+                                    this.loginModal=false;
                                     this.logined=true;
+                                    this.user = data.data;
                                     localStorage.setItem('user',JSON.stringify(data.data));
 									this.$Message.success(data.msg);
 								}else{
@@ -263,27 +290,27 @@ export default {
   beforeMount(){
       //查询、设置用户登录状态
       let url = this.$axios.defaults.baseURL + "loginController/getUser";
-          let param = this.formLogin;
-          this.$axios({method:'post', url:url, data:null})
-          .then((response) => {
-              if( response.status == 200){
-                  let data = response.data;
-                  if(data == null || data === ''){
-                      localStorage.removeItem('user');
-                  }else{
-                      this.logined=true;
-                      localStorage.setItem('user',JSON.stringify(data));
-                  }
-              }else{
-                  this.$Message.error('Fail!');
-              }
-       }).catch((error) => {
-            console.log(error);
-       })
+        let param = this.formLogin;
+        this.$axios({method:'post', url:url, data:null})
+        .then((response) => {
+            if( response.status == 200){
+                let data = response.data;
+                if(data == null || data === ''){
+                    localStorage.removeItem('user');
+                }else{
+                    this.logined=true;
+                    this.user = data;
+                    localStorage.setItem('user',JSON.stringify(data));
+                }
+            }else{
+                this.$Message.error('Fail!');
+            }
+    }).catch((error) => {
+        console.log(error);
+    })
   },
   mounted(){
 	this.changeNavTab(0);
-  	
   }
 }
 </script>
