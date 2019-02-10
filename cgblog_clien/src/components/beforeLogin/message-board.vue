@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div>
-            <Message></Message>
+            <Message ref="pushMessage1" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
         </div> 
 		<div class="message-wrap">
 			<div class="top">
@@ -47,8 +47,8 @@
 								<span v-show="repy1" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
 							</span>
 						</div>
-						<div v-show='repy1'>
-							<Message></Message>
+						<div v-if='repy1'>
+							<Message ref="pushMessage2" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
 						</div>
 						<div class="bgccc mrt20" v-show='pinlun1'>
 							<ul class="message">
@@ -79,8 +79,8 @@
 											<span v-show="repy2" class="pointer" @click="repy2 = false;repy1=false;">取消回复</span>
 										</span>
 									</div>
-									<div v-show='repy2' class="reply">
-										<Message></Message>
+									<div v-if='repy2' class="reply">
+										<Message ref="pushMessage3" @fatherMethod="handlerPush" :parentComponent="parentComponent"></Message>
 									</div>
 								</div>
 							</ul>
@@ -106,16 +106,65 @@ export default {
 		repy1:false,
 		repy2:false,
 		pinlun1:false,
+		parentComponent:1,
     }
   },
   watch:{
+	repy1: {
+		handler: function (val, oldVal) { 
+			  // DOM 更新了
+			  if(this.repy1 && ! this.repy2){
+				  this.parentComponent = 2;
+			  }else if(!this.repy1 && this.repy2){
+				  this.parentComponent = 3;
+			  }else{
+				  this.parentComponent = 1;
+			  }
+	  },
+      immediate: true
+    },
+	repy2: {
+		handler: function (val, oldVal) { 
+		  if(this.repy1 && ! this.repy2){
+			  this.parentComponent = 2;
+		  }else if(!this.repy1 && this.repy2){
+			  this.parentComponent = 3;
+		  }else{
+			  this.parentComponent = 1;
+		  }
+	  },
+	  immediate: true
+	},
   },
   components: {
 	Message
   },
   methods:{
+	  //最新最热留言切换
 	  changeMessage(num){
 		  this.changeActive = num;
+	  },
+	  //子组件点击发布调用
+	  handlerPush(num){
+		  if(num == 2){
+			  this.push2();
+		  }else if(num == 3){
+			  this.push3();
+		  }else{
+			  this.push1();
+		  }
+	  },
+	  //发布留言方法1
+	  push1(){
+		  alert(1)
+	  },
+	  //发布留言方法2
+	  push2(){
+		  alert(2)
+	  },
+	  //发布留言方法3
+	  push3(){
+		  alert(3)
 	  },
   },
   mounted() {
