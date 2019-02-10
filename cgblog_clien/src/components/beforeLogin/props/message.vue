@@ -61,14 +61,23 @@ export default {
     }
   },
   props:{
-	  
+		parentComponent:{
+			type:Number,
+			default:1
+		}
   },
   watch:{
   },
   methods:{
 	  //发布评论事件
 	  pushMessage(){
-		  
+		  if(this.parentComponent == 2){
+			  this.$emit('fatherMethod',this.parentComponent);
+		  }else if( this.parentComponent == 3){
+			  this.$emit('fatherMethod',this.parentComponent);
+		  }else{
+			  this.$emit('fatherMethod',0);
+		  }
 	  },
 	  //获取表情
       getEmoticon(){
@@ -106,6 +115,7 @@ export default {
   },
   mounted() {
       this.getEmoticon();
+	  console.log(this.parentComponent)
 	  this.islogined = !localStorage.getItem('user')?false:true;
   }
 }
