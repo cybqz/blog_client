@@ -39,7 +39,10 @@
                         <span><Button class='icon red pointer' type="text" ghost size="small" icon="md-image" title="图片"/></Button></span>
                     </Poptip>
                 </span>
-                <span class="right organe pointer">登录</span>
+                <span class="right organe">
+					<span class="pointer" v-show="!islogined">登录</span>
+					<span class="pointer" v-show="islogined" @click="pushMessage()">发布</span>
+				</span>
             </div>
         </div>
 	</div>
@@ -53,12 +56,21 @@ export default {
         message:'',
         emoticonsA:[],
         emoticonsB:[],
-        emoticonsC:[]
+        emoticonsC:[],
+		islogined:false,
     }
+  },
+  props:{
+	  
   },
   watch:{
   },
   methods:{
+	  //发布评论事件
+	  pushMessage(){
+		  
+	  },
+	  //获取表情
       getEmoticon(){
           let baseURL = this.$axios.defaults.baseURL;
           let url = baseURL + "emoticonController/getEmoticonList";
@@ -94,6 +106,7 @@ export default {
   },
   mounted() {
       this.getEmoticon();
+	  this.islogined = !localStorage.getItem('user')?false:true;
   }
 }
 </script>
@@ -111,6 +124,10 @@ export default {
             display: flex;
             border: none;
             border-top: 1px solid #ccc;
+			.right{
+				text-align: right;
+				padding-right: 40px;
+			}
             .right, .left{
                 flex: 1;
                 font-size: 16px;
