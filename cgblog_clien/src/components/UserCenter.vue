@@ -34,7 +34,7 @@ export default {
             email:'',
             phone:'',
             image:'',
-            userNam:''
+            userName:''
         }
     }
   },
@@ -43,8 +43,11 @@ export default {
   methods:{
   },
   beforeMount(){
-      var user = localStorage.getItem('user');
-      console.log(user);
+      var user = JSON.parse(localStorage.getItem('user'));
+      for(var i in  this.userInfo){
+          this.userInfo[i] = user[i];
+      }
+      debugger
   }
 }
 </script>

@@ -55,16 +55,16 @@ export default {
   },
   methods:{
 		test(){
-			let url = this.$axios.defaults.baseURL + "readingController/publish";
+			let url = this.$axios.defaults.baseURL + "messageController/reply";
 			let param = {
-				title:'hhahahhaaaaaaaaaaaaaaaaaaa',
-                recommend:'  会好好睡觉',
-                modal:'bk'
-
+				blogId:'03a4fd08-d2ad-4a36-a079-32469f3d4ecc',
+                commentContaint:'CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018'
 			};
 			this.$axios.get(url, {params: param})
 			.then((response) => {
-					console.log(response)
+					if( response.status == 200){
+                        this.$Message.info(response.data.msg);
+					}
 			}).catch((error) => {
 					console.log(error)
 			})
