@@ -330,6 +330,7 @@ export default {
 		width: 100%;
 		border-bottom: 1px solid #ccc;
 		display: flex;
+		z-index: 99999999;
 		.logo{
 			margin: 0 20px;
 			width: 140px;

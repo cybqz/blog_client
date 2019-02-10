@@ -43,7 +43,7 @@
 								<Icon class='tubiao pointer' @click="pinlun1 = !pinlun1;"  type="ios-chatboxes-outline" /> 23
 							</span>
 							<span class="huifu blue">
-								<span v-show="!repy1" class="pointer" @click="repy1 = true;repy2=false;">回复消息</span>
+								<span v-show="!repy1" class="pointer" @click="repy1 = true;repy2=false;">回复</span>
 								<span v-show="repy1" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
 							</span>
 						</div>
@@ -71,11 +71,11 @@
 									</div>
 									<div class="time-agrue">
 										<span class="timeReply">2019-02-08 16:39:37</span>
-										<span class="zan gost">
+										<span class="zanReply gost">
 											<Icon class="red tubiao pointer" type="md-thumbs-up" /> 23
 										</span>
 										<span class="huifu blue">
-											<span v-show="!repy2" class="pointer" @click="repy2 = true;repy1=false;">回复消息</span>
+											<span v-show="!repy2" class="pointer" @click="repy2 = true;repy1=false;">回复</span>
 											<span v-show="repy2" class="pointer" @click="repy2 = false;repy1=false;">取消回复</span>
 										</span>
 									</div>
@@ -89,75 +89,7 @@
 				</ul>
 			</div>
 			<div class="message-bottom shadow radius5">
-				<ul class="message">
-					<div class="img">
-						<span>
-							<Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
-						</span>
-					</div>
-					<div class="img-right">
-						<div class="user">
-							口角
-						</div>
-						<div class="content eclipes2">
-							fdf还是几号放假还是几号放假都是粉红
-							色的还是几号放假都是粉红色的还是几号放假都是粉红色的都是粉红色的 发货后付款是发
-							还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-							还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-						</div>
-						<div class="time-agrue">
-							<span class="time">2019-02-08 16:39:37</span>
-							<span class="zan gost">
-								<Icon class="red tubiao pointer" type="md-thumbs-up" /> 23
-							</span>
-							<span class="pinglun gost">
-								<Icon class='tubiao pointer' @click="pinlun1 = !pinlun1;"  type="ios-chatboxes-outline" /> 23
-							</span>
-							<span class="huifu blue">
-								<span v-show="!repy1" class="pointer" @click="repy1 = true;repy2=false;">回复消息</span>
-								<span v-show="repy1" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
-							</span>
-						</div>
-						<div v-show='repy1'>
-							<Message></Message>
-						</div>
-						<div class="bgccc mrt20" v-show='pinlun1'>
-							<ul class="message">
-								<div class="img">
-									<span>
-										<Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
-									</span>
-								</div>
-								<div class="img-right">
-									<div class="userReply">
-										<span class="user">士大夫</span>
-										回复
-										<span class="user">口角</span>
-									</div>
-									<div class="contentReply eclipes21">
-										fdf还是几号放假还是几号放假都是粉红
-										色的还是几号放假都是粉红色的还是几号放假都是粉红色的都是粉红色的 发货后付款是发
-										还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-										还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-									</div>
-									<div class="time-agrue">
-										<span class="timeReply">2019-02-08 16:39:37</span>
-										<span class="zan gost">
-											<Icon class="red tubiao pointer" type="md-thumbs-up" /> 23
-										</span>
-										<span class="huifu blue">
-											<span v-show="!repy2" class="pointer" @click="repy2 = true;repy1=false;">回复消息</span>
-											<span v-show="repy2" class="pointer" @click="repy2 = false;repy1=false;">取消回复</span>
-										</span>
-									</div>
-									<div v-show='repy2' class="reply">
-										<Message></Message>
-									</div>
-								</div>
-							</ul>
-						</div>
-					</div>
-				</ul>
+				12
 			</div>
 		</div>
 	</div>
@@ -282,9 +214,12 @@ export default {
 					.timeReply{
 						width: calc(40% - 40px);
 					}
-					.timeReply,.time,.zan,.pinglun,.huifu{
+					.timeReply,.zanReply,.time,.zan,.pinglun,.huifu{
 						display: inline-block;
 						text-align: left;
+					}
+					.zanReply{
+						width: calc(30% + 33px);
 					}
 					.zan,.pinglun,.huifu{
 						width: 15%;
