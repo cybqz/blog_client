@@ -206,6 +206,7 @@ export default {
 				}
 			})
 		},
+		//登录事件
 		handleLogin(formLogin) {
 			this.$refs[formLogin].validate((valid) => {
 					if(valid){
@@ -222,6 +223,8 @@ export default {
                                     this.user = data.data;
                                     localStorage.setItem('user',JSON.stringify(data.data));
 									this.$Message.success(data.msg);
+									let location = window.location;
+									window.location.replace(location);
 								}else{
 									this.$Message.error(data.msg);
 								}
@@ -265,6 +268,7 @@ export default {
 					}
 			})
 		},
+		//退出事件
 		logout(){
 			let url = this.$axios.defaults.baseURL + "loginController/logout";
 			let param = this.formLogin;
@@ -276,6 +280,8 @@ export default {
                         this.logined=false;
                         localStorage.removeItem('user');
 						this.$Message.success(data.msg);
+						let location = window.location;
+						window.location.replace(location);
 					}else{
 						this.$Message.error(data.msg);
 					}
@@ -330,7 +336,7 @@ export default {
 		width: 100%;
 		border-bottom: 1px solid #ccc;
 		display: flex;
-		z-index: 99999999;
+		z-index: 99;
 		.logo{
 			margin: 0 20px;
 			width: 140px;

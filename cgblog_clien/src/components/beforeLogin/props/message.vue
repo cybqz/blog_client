@@ -60,9 +60,17 @@ export default {
 		islogined:false,
     }
   },
+  props:{
+	  
+  },
   watch:{
   },
   methods:{
+	  //发布评论事件
+	  pushMessage(){
+		  
+	  },
+	  //获取表情
       getEmoticon(){
           let baseURL = this.$axios.defaults.baseURL;
           let url = baseURL + "emoticonController/getEmoticonList";
