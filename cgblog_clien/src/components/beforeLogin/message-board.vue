@@ -18,7 +18,7 @@
 			</div>
 			<div class="message-top shadow radius5">
 				<div class="zhiding">置顶评论</div>
-				<ul class="message">
+				<ul class="message" v-for="(item,index) in messageList">
 					<div class="img">
 						<span>
 							<Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
@@ -26,21 +26,23 @@
 					</div>
 					<div class="img-right">
 						<div class="user">
-							口角
+							{{item.userName}}
 						</div>
 						<div class="content eclipes2">
-							fdf还是几号放假还是几号放假都是粉红
-							色的还是几号放假都是粉红色的还是几号放假都是粉红色的都是粉红色的 发货后付款是发
-							还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-							还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
+							{{item.message}}
 						</div>
 						<div class="time-agrue">
-							<span class="time">2019-02-08 16:39:37</span>
+							<span class="time">{{item.createtime | formTime}}</span>
 							<span class="zan gost">
-								<Icon class="red tubiao pointer" type="md-thumbs-up" /> 23
+								<Icon class=" tubiao pointer" :class="logined?(item.fablous?'gost':'red') :'gost'" type="md-thumbs-up" /> 
+								{{item.fablousCount}}
 							</span>
 							<span class="pinglun gost">
-								<Icon class='tubiao pointer' @click="pinlun1 = !pinlun1;"  type="ios-chatboxes-outline" /> 23
+								<Tooltip v-if="!item.commentCount" content="暂无回复消息" placement="bottom">
+									<Icon class='tubiao' type="ios-chatboxes-outline" />
+								</Tooltip>
+								<Icon v-else class='tubiao pointer' @click="pinlun1 = !pinlun1;"  type="ios-chatboxes-outline" />
+								{{item.commentCount}}
 							</span>
 							<span class="huifu blue">
 								<span v-show="!repy1" class="pointer" @click="repy1 = true;repy2=false;">回复</span>
@@ -48,7 +50,7 @@
 							</span>
 						</div>
 						<div v-if='repy1'>
-							<Message ref="pushMessage2" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
+							<Message ref="pushMessage2" :blogId="item.id" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
 						</div>
 						<div class="bgccc mrt20" v-show='pinlun1'>
 							<ul class="message">
@@ -101,12 +103,14 @@ export default {
   name: 'message-board',
   data () {
     return {
-		messageCount:3434,
+		logined:false,
+		messageCount:0,
 		changeActive:-1,
 		repy1:false,
 		repy2:false,
 		pinlun1:false,
 		parentComponent:1,
+		messageList:[],
     }
   },
   watch:{
@@ -145,29 +149,98 @@ export default {
 		  this.changeActive = num;
 	  },
 	  //子组件点击发布调用
-	  handlerPush(num){
+	  handlerPush(num,blogId){
 		  if(num == 2){
-			  this.push2();
+			  this.push2(blogId);
 		  }else if(num == 3){
-			  this.push3();
+			  this.push3(blogId);
 		  }else{
 			  this.push1();
 		  }
 	  },
+	  //留言列表
+	  getMessageList(){
+		  let baseURL = this.$axios.defaults.baseURL;
+		  let url = baseURL + "messageController/getList";
+		  this.$axios({method:'post', url:url, data:null})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+				  this.messageList = data.pageDatas;
+				  
+				  this.messageCount = data.dataCount;
+		      }else{
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
+	  },
 	  //发布留言方法1
 	  push1(){
-		  alert(1)
+		  let baseURL = this.$axios.defaults.baseURL;
+		  let url = baseURL + "messageController/publish";
+		  let params = {
+			 message:this.$refs.pushMessage1.message
+		  };
+		  this.$axios({method:'post', url:url, params:params})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+				  this.$Message.success(response.data.msg);
+				  this.$refs.pushMessage1.message="";
+				  alert(this.$ref.pushMessage1.message)
+		      }else{
+		          this.$Message.error(response.data.msg);
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
 	  },
 	  //发布留言方法2
-	  push2(){
-		  alert(2)
+	  push2(blogId){
+		  let baseURL = this.$axios.defaults.baseURL;
+		  let url = baseURL + "messageController/reply";
+		  let params = {
+			  commentContaint:$refs.pushMessage2.message,
+			  blogId:blogId
+		  };
+		  this.$axios({method:'post', url:url, params:params})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+		  				  this.$Message.success(response.data.msg);
+		  				  this.$refs.pushMessage2.message="";
+		      }else{
+		          this.$Message.error(response.data.msg);
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
 	  },
 	  //发布留言方法3
-	  push3(){
+	  push3(blogId){
 		  alert(3)
 	  },
+	  
+  },
+  filters:{
+	  //时间转换
+	  formTime(shijianchuo){
+		let time = new Date(shijianchuo);
+		let y = time.getFullYear();
+		let m = time.getMonth()+1;
+		let d = time.getDate();
+		let h = time.getHours();
+		let mm = time.getMinutes();
+		let s = time.getSeconds();
+		return y+'-'+m+'-'+d+' '+h+':'+mm+':'+s;
+	  },
+  },
+  beforeMount(){
+      this.logined= !localStorage.getItem('user')?false:true;
   },
   mounted() {
+	  this.getMessageList();
   }
 }
 </script>
