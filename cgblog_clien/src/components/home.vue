@@ -333,7 +333,7 @@ export default {
 		bottom: 0;
 		left: 0;
 		right: 0;
-		background: papayawhip;
+		background: #f1f1f0;
 		color: black;
 		font-size: 14px;
 		.text{
