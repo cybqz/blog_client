@@ -40,6 +40,10 @@
 		<div class="containtWrap">
 			<router-view/>
 		</div>
+		<div class="wrap-footer">
+			<span class="text">Design by：陈迎博&高凤娇</span>
+			<span class="text">备案号：京ICP备19006623号-1</span>
+		</div>
 		<Modal
         v-model="loginModal"
         title=""
@@ -322,6 +326,20 @@ export default {
 </script>
 
 <style scoped lang="less">
+	.wrap-footer{
+		height: 40px;
+		line-height: 40px;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: papayawhip;
+		color: black;
+		font-size: 14px;
+		.text{
+			margin: 0 20px;
+		}
+	}
 	.topWrap{
 		height: 60px;
 		margin-bottom: 20px;
@@ -393,5 +411,6 @@ export default {
 	.containtWrap{
 		width: 80%;
 		margin: 0 auto;
+		margin-bottom: 80px;
 	}
 </style>

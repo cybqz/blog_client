@@ -65,10 +65,6 @@ export default {
 			type:Number,
 			default:1
 		},
-		blogId:{
-			type:String,
-			default:''
-		},
   },
   watch:{
   },
@@ -76,12 +72,13 @@ export default {
 	  //发布评论事件
 	  pushMessage(){
 		  if(this.parentComponent == 2){
-			  this.$emit('fatherMethod',this.parentComponent,this.blogId);
+			  this.$emit('fatherMethod',this.parentComponent,this.message);
 		  }else if( this.parentComponent == 3){
-			  this.$emit('fatherMethod',this.parentComponent,this.blogId);
+			  this.$emit('fatherMethod',this.parentComponent,this.message);
 		  }else{
-			  this.$emit('fatherMethod',0);
+			  this.$emit('fatherMethod',0,this.message);
 		  }
+		  this.message = '';
 	  },
 	  //获取表情
       getEmoticon(){

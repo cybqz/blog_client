@@ -21,7 +21,7 @@
 				<ul class="message" v-for="(item,index) in messageList">
 					<div class="img">
 						<span>
-							<Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+							<Avatar :src="baseURL+item.userImage" />
 						</span>
 					</div>
 					<div class="img-right">
@@ -41,40 +41,38 @@
 								<Tooltip v-if="!item.commentCount" content="暂无回复消息" placement="bottom">
 									<Icon class='tubiao' type="ios-chatboxes-outline" />
 								</Tooltip>
-								<Icon v-else class='tubiao pointer' @click="pinlun1 = !pinlun1;"  type="ios-chatboxes-outline" />
+								<Icon v-else class='tubiao pointer' @click="showReplyList(item.id)"  type="ios-chatboxes-outline" />
 								{{item.commentCount}}
 							</span>
 							<span class="huifu blue">
-								<span v-show="!repy1" class="pointer" @click="repy1 = true;repy2=false;">回复</span>
-								<span v-show="repy1" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
+								<span v-show="!repy1 || blogId!=item.id" class="pointer" @click="showReply(1,item.id)">回复</span>
+								<span v-show="repy1 && blogId==item.id" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
 							</span>
 						</div>
-						<div v-if='repy1'>
-							<Message ref="pushMessage2" :blogId="item.id" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
+						<div v-if='repy1 && blogId==item.id'>
+							<Message ref="pushMessage2" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
 						</div>
-						<div class="bgccc mrt20" v-show='pinlun1'>
-							<ul class="message">
+						<div class="bgccc mrt20" v-show='pinlun1 && blogId==item.id'>
+							<ul class="message" v-for="item in replyList">
 								<div class="img">
 									<span>
-										<Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+										<Avatar :src="baseURL+item.commentUserImage" />
 									</span>
 								</div>
 								<div class="img-right">
 									<div class="userReply">
-										<span class="user">士大夫</span>
+										<span class="user">{{item.commentUserName}}</span>
 										回复
-										<span class="user">口角</span>
+										<span class="user">{{item.userName}}</span>
 									</div>
 									<div class="contentReply eclipes21">
-										fdf还是几号放假还是几号放假都是粉红
-										色的还是几号放假都是粉红色的还是几号放假都是粉红色的都是粉红色的 发货后付款是发
-										还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
-										还是几号放假都是粉红色的还是几号放假都是粉红色的还是几号放假都是粉红色的
+										{{item.commentContaint}}
 									</div>
 									<div class="time-agrue">
-										<span class="timeReply">2019-02-08 16:39:37</span>
+										<span class="timeReply">{{item.commentDate | formTime}}</span>
 										<span class="zanReply gost">
-											<Icon class="red tubiao pointer" type="md-thumbs-up" /> 23
+											<Icon :class="logined?(item.fablous?'gost':'red') :'gost'" class="red tubiao pointer" type="md-thumbs-up" /> 
+											{{item.fablousCount}}
 										</span>
 										<span class="huifu blue">
 											<span v-show="!repy2" class="pointer" @click="repy2 = true;repy1=false;">回复</span>
@@ -103,6 +101,7 @@ export default {
   name: 'message-board',
   data () {
     return {
+		baseURL:'',
 		logined:false,
 		messageCount:0,
 		changeActive:-1,
@@ -111,6 +110,8 @@ export default {
 		pinlun1:false,
 		parentComponent:1,
 		messageList:[],
+		replyList:[],
+		blogId:0,
     }
   },
   watch:{
@@ -148,17 +149,40 @@ export default {
 	  changeMessage(num){
 		  this.changeActive = num;
 	  },
-	  //子组件点击发布调用
-	  handlerPush(num,blogId){
-		  if(num == 2){
-			  this.push2(blogId);
-		  }else if(num == 3){
-			  this.push3(blogId);
-		  }else{
-			  this.push1();
-		  }
+	  //点击回复1展示回复框
+	  showReply(blogId){
+		  debugger
+		  this.repy1 = true;
+		  this.repy2=false;
+		  this.blogId = blogId;
+		  
 	  },
-	  //留言列表
+	  //点击评论展示回复列表
+	  showReplyList(blogId){
+		  this.pinlun1 = !this.pinlun1;
+		  this.blogId = blogId;
+		  this.getReplyList();
+	  },
+	  //回复列表数据
+	  getReplyList(){
+		  let baseURL = this.$axios.defaults.baseURL;
+		  let url = baseURL + "commentController/getList";
+		  let params = {
+		  			  blogId:this.blogId
+		  };
+		  this.$axios({method:'post', url:url, params:params})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+				   this.replyList = data.pageDatas;
+				  
+		      }else{
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
+	  },
+	  //留言列表数据
 	  getMessageList(){
 		  let baseURL = this.$axios.defaults.baseURL;
 		  let url = baseURL + "messageController/getList";
@@ -175,20 +199,28 @@ export default {
 		      console.log(error)
 		  });
 	  },
+	  //子组件点击发布调用
+	  handlerPush(num,message){
+		  if(num == 2){
+			  this.push2(message);
+		  }else if(num == 3){
+			  this.push3(message);
+		  }else{
+			  this.push1(message);
+		  }
+	  },
 	  //发布留言方法1
-	  push1(){
+	  push1(message){
 		  let baseURL = this.$axios.defaults.baseURL;
 		  let url = baseURL + "messageController/publish";
 		  let params = {
-			 message:this.$refs.pushMessage1.message
+			 message:message
 		  };
 		  this.$axios({method:'post', url:url, params:params})
 		  .then((response) => {
 		      let data = response.data;
 		      if( response.status == 200){
 				  this.$Message.success(response.data.msg);
-				  this.$refs.pushMessage1.message="";
-				  alert(this.$ref.pushMessage1.message)
 		      }else{
 		          this.$Message.error(response.data.msg);
 		      }
@@ -197,19 +229,20 @@ export default {
 		  });
 	  },
 	  //发布留言方法2
-	  push2(blogId){
+	  push2(message){
+		  console.log(this.$refs.pushMessage2)
 		  let baseURL = this.$axios.defaults.baseURL;
 		  let url = baseURL + "messageController/reply";
 		  let params = {
-			  commentContaint:$refs.pushMessage2.message,
-			  blogId:blogId
+			  commentContaint:message,
+			  blogId:this.blogId
 		  };
 		  this.$axios({method:'post', url:url, params:params})
 		  .then((response) => {
 		      let data = response.data;
 		      if( response.status == 200){
-		  				  this.$Message.success(response.data.msg);
-		  				  this.$refs.pushMessage2.message="";
+		  		  this.$Message.success(response.data.msg);
+				  this.getReplyList();
 		      }else{
 		          this.$Message.error(response.data.msg);
 		      }
@@ -218,7 +251,7 @@ export default {
 		  });
 	  },
 	  //发布留言方法3
-	  push3(blogId){
+	  push3(message){
 		  alert(3)
 	  },
 	  
@@ -238,6 +271,7 @@ export default {
   },
   beforeMount(){
       this.logined= !localStorage.getItem('user')?false:true;
+	  this.baseURL = this.$axios.defaults.baseURL;
   },
   mounted() {
 	  this.getMessageList();
