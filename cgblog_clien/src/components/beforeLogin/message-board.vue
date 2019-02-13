@@ -52,7 +52,7 @@
 						<div v-if='repy1 && blogId==item.id'>
 							<Message ref="pushMessage2" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
 						</div>
-						<div class="bgccc mrt20" v-show='pinlun1 && blogId==item.id'>
+						<div class="bgccc mrt20" v-show='pinlun1 && commentblogId==item.id'>
 							<ul class="message" v-for="item in replyList">
 								<div class="img">
 									<span>
@@ -112,6 +112,7 @@ export default {
 		messageList:[],
 		replyList:[],
 		blogId:0,
+		commentblogId:0,
     }
   },
   watch:{
@@ -159,7 +160,7 @@ export default {
 	  //点击评论展示回复列表
 	  showReplyList(blogId){
 		  this.pinlun1 = !this.pinlun1;
-		  this.blogId = blogId;
+		  this.commentblogId = blogId;
 		  this.getReplyList();
 	  },
 	  //回复列表数据
@@ -167,7 +168,7 @@ export default {
 		  let baseURL = this.$axios.defaults.baseURL;
 		  let url = baseURL + "commentController/getList";
 		  let params = {
-		  			  blogId:this.blogId
+		  			  blogId:this.commentblogId
 		  };
 		  this.$axios({method:'post', url:url, params:params})
 		  .then((response) => {
