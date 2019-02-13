@@ -8,7 +8,8 @@ import beforeLogin from '@/components/beforeLogin/index'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
+  base: '/blog/',
   routes: [
     {
       path: '/home',
