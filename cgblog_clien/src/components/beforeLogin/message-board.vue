@@ -45,7 +45,7 @@
 								{{item.commentCount}}
 							</span>
 							<span class="huifu blue">
-								<span v-show="!repy1 || blogId!=item.id" class="pointer" @click="showReply(1,item.id)">回复</span>
+								<span v-show="!repy1 || blogId!=item.id" class="pointer" @click="showReply(item.id)">回复</span>
 								<span v-show="repy1 && blogId==item.id" class="pointer" @click="repy1 = false;repy2=false;">取消回复</span>
 							</span>
 						</div>
@@ -151,7 +151,6 @@ export default {
 	  },
 	  //点击回复1展示回复框
 	  showReply(blogId){
-		  debugger
 		  this.repy1 = true;
 		  this.repy2=false;
 		  this.blogId = blogId;
