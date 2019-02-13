@@ -83,12 +83,13 @@
                             <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem prop="sex">
-                        <Select v-model="formRegister.sex" placeholder="性别">
-                            <Option value="1" selected>男</Option>
-                            <Option value="0">女</Option>
-                        </Select>
-                    </FormItem>
+					<div style="margin-bottom: 20px;text-align: center;">
+						<span style="margin-right: 40px;vertical-align: middle;">性别：</span>
+						<RadioGroup v-model="formRegister.sex">
+								<Radio label="1">男</Radio>
+								<Radio label="0">女</Radio>
+						</RadioGroup>
+					</div>
                     <FormItem prop="password">
                         <Input type="password" v-model="formRegister.password" prop="password" placeholder="Password">
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
