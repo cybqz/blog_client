@@ -41,7 +41,7 @@
 			<router-view/>
 		</div>
 		<div class="wrap-footer">
-			<span class="text">Design by：陈迎博&高凤娇</span>
+			<span class="text">Design by：CYB&nbsp;&&nbsp;GFJ</span>
 			<span class="text">备案号：京ICP备19006623号-1</span>
 		</div>
 		<Modal
