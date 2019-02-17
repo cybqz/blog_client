@@ -29,6 +29,7 @@
                                     <DropdownItem>欢迎：{{formLogin.userName}}</DropdownItem>
                                     <DropdownItem @click.native="userCenter()">个人中心</DropdownItem>
                                     <DropdownItem @click.native="openingVIP()">开通VIP</DropdownItem>
+                                    <DropdownItem @click.native="talk()">聊天</DropdownItem>
                                     <DropdownItem @click.native="logout()">退出</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
@@ -200,6 +201,11 @@ export default {
         openingVIP(){
             this.$router.push({
 			   path: '/home/openingVIP',
+		    }) 
+        },
+        talk(){
+            this.$router.push({
+			   path: '/home/talk',
 		    }) 
         },
 		changeNavTab(num){

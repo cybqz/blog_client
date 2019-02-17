@@ -10,18 +10,17 @@ import axios from 'axios' // 1、在这里引入axios
 import qs from 'qs' //解决参数无法传递
 
 Vue.prototype.$qs = qs;
-Vue.prototype.$axios = axios;   // 2、在vue中使用axios
+Vue.prototype.$axios = axios;
 Vue.prototype.$Message = Message
 
 axios.defaults.timeout = 10000;// 在超时前，所有请求都会等待 5 秒
 axios.defaults.headers.post['Content-Type']= 'application/x-www-form-urlencoded;charset=UTF-8';// 配置请求头
-axios.defaults.baseURL = 'http://www.cybqz.com/blogserver/';// 配置接口地址
+axios.defaults.baseURL = 'http://127.0.0.1:9090/blog/';// 配置接口地址
 axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false;
 
-
-Vue.use(iView), //使用iview组件 
+Vue.use(iView), //使用iview组件
 
 /* eslint-disable no-new */
 new Vue({
