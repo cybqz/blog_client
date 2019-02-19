@@ -139,14 +139,14 @@ import { setInterval, clearInterval } from 'timers';
             this.getVoices();
             let that = this;
             //实时刷新消息
-            /* this.$nextTick(function () {
+            this.$nextTick(function () {
                 let getVoicesTimer = window.setInterval(function(){
                     that.getVoices();
                 },3000);
                 that.$once('hook:beforeDestroy', () => {       
                     window.clearInterval(getVoicesTimer);                                    
                 });
-            }); */
+            });
         }
 	};
 </script>
