@@ -3,7 +3,7 @@
         <div class="eventModel">
             <Modal v-model="eventModel" width="550" title="添加趣事">
                 <div style="text-align:center">
-
+					<AddEvent></AddEvent>
                 </div>
                 <div slot="footer" style="text-align:center;">
                     <!-- <Button style="margin:0 20px;" @click="eventCancel">取消</Button>
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+	import AddEvent from "@/components/beforeLogin/props/addEvent.vue";
 export default {
     name: 'intersting',
     data () {
@@ -147,6 +148,7 @@ export default {
         }
     },
     components: {
+		AddEvent,
     },
     beforeMount(){
         this.logined= !localStorage.getItem('user')?false:true;
