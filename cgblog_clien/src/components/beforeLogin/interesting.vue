@@ -1,7 +1,22 @@
 <template>
 	<div>
-		<!-- 点趣模块 -->
-		<div class="modelBox"></div>
+        <div class="eventModel">
+            <Modal v-model="eventModel" width="550" title="添加趣事">
+                <div style="text-align:center">
+
+                </div>
+                <div slot="footer" style="text-align:center;">
+                    <!-- <Button style="margin:0 20px;" @click="eventCancel">取消</Button>
+                    <Button type="primary" style="margin:0 20px;" @click="eventConfirm">发布</Button> -->
+                </div>
+            </Modal>
+        </div>
+        <div class="addIcon">
+           <span class="pointer" @click="addevent()">
+                <span class="addtext">添加</span>
+                <Icon type="md-add" />   
+           </span> 
+        </div>
 		<div class="shadow ptb20">
 			<Scroll :on-reach-bottom="handleReachBottom" :height="600">
 				<div class="intereting-wrap" v-for="item in data">
@@ -36,23 +51,38 @@
 
 <script>
 export default {
-  name: 'beforeLogin',
-  data () {
-    return {
-        controllrt:'blogController/',
-        tatal:0,
-        pageSize:10,
-        pageNo:1,
-        data:[],
-        continueGetData:true,
-        logined:false,
-    }
-  },
-  watch:{
-  },
-  methods:{
-		getData(){
-			if(this.continueGetData){
+    name: 'intersting',
+    data () {
+        return {
+            //添加
+            eventModel: false,
+            controllrt:'blogController/',
+            tatal:0,
+            pageSize:10,
+            pageNo:1,
+            data:[],
+            continueGetData:true,
+            parentComponent:1,
+            logined:false,
+        }
+    },
+    watch:{
+    },
+    methods:{
+        //添加事件
+        addevent(){
+            this.eventModel = !this.eventModel;
+        }, 
+        //取消添加事件
+        eventCancel(){
+            this.eventModel = false;
+        },
+        //发布事件
+        eventConfirm(){
+             this.eventModel = false;
+        },
+        getData(){
+            if(this.continueGetData){
 				let url = this.$axios.defaults.baseURL + this.controllrt + "getList";
 				let param = {
 					pageIndex:this.pageNo
@@ -74,10 +104,10 @@ export default {
 			}else{
 				this.$Message.info('已经到底啦！');
 			}
-		},
-		handleReachBottom(){
-			this.pageNo += 1;
-			this.getData();
+        },
+        handleReachBottom(){
+            this.pageNo += 1;
+            this.getData();
         },
         doComment(id){
             alert(id);
@@ -116,17 +146,44 @@ export default {
             })
         }
     },
+    components: {
+    },
     beforeMount(){
         this.logined= !localStorage.getItem('user')?false:true;
     },
-	mounted() {
-		this.getData();
-	}
+    mounted() {
+        this.getData();
+    }
 }
 </script>
+<style lang="less">
+    .ivu-modal-footer{
+        border:none;
+    }
+</style>
 
 <style scoped lang="less">
-	@import "../../assets/css/common.less";
+    @import "../../assets/css/common.less";
+    .addIcon{
+        height: 30px;
+        line-height: 30px;
+        padding: 0 20px;
+        text-align: left;
+        color: orange;
+        span{
+            font-size: 18px;
+            &.addtext{
+                font-size: 14px;
+            }
+        }
+    }
+    .push-text{
+        text-align: left;
+        .text-title{
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
 	.intereting-wrap{
 		padding: 40px 0;
 		border-top: 1px dashed #ccc;

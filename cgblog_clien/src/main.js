@@ -8,6 +8,8 @@ import Message from 'iview'
 import 'iview/dist/styles/iview.css' // 引入iview css样式
 import axios from 'axios' // 1、在这里引入axios
 import qs from 'qs' //解决参数无法传递
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios;
@@ -21,6 +23,15 @@ axios.defaults.withCredentials = true
 Vue.config.productionTip = false;
 
 Vue.use(iView), //使用iview组件
+
+NProgress.configure({ easing: 'ease', speed: 1000, showSpinner: false })
+router.beforeEach((to, from, next) => {
+    NProgress.start();
+    next();
+});
+router.afterEach(transition => {
+  NProgress.done();
+});
 
 /* eslint-disable no-new */
 new Vue({
