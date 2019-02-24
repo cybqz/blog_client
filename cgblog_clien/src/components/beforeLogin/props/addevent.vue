@@ -44,15 +44,12 @@
 			                <span><Button class='icon red pointer' type="text" ghost size="small" icon="md-image" title="图片"/></Button></span>
 			            </Poptip>
 			        </span>
-			        <!-- <span class="right organe">
-						<span class="pointer" @click="pushMessage()">发布</span>
-					</span> -->
 			    </div>
 			</div>
 				
 		</div>
         <div class="footer">
-			<span class="pushText">取消</span>
+			<span class="pushText" @click="cancel()">取消</span>
 			<span class="pushText">确认</span>
 		</div>
 	</div>
@@ -80,16 +77,10 @@ export default {
   watch:{
   },
   methods:{
-	  //发布评论事件
-	  pushMessage(){
-		  if(this.parentComponent == 2){
-			  this.$emit('fatherMethod',this.parentComponent,this.message);
-		  }else if( this.parentComponent == 3){
-			  this.$emit('fatherMethod',this.parentComponent,this.message);
-		  }else{
-			  this.$emit('fatherMethod',0,this.message);
-		  }
-		  this.message = '';
+	  //取消发布并参数重置
+	  cancel(){
+		  console.log(this.$parent)
+		  this.$parent.eventModel = false;
 	  },
 	  //获取表情
       getEmoticon(){
@@ -138,6 +129,7 @@ export default {
 		margin-top: 40px;
 		text-align: center;
 		.pushText{
+			cursor: pointer;
 			display: inline-block;
 			width: 100px;
 			height: 40px;
