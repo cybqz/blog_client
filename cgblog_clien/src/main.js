@@ -8,8 +8,10 @@ import Message from 'iview'
 import 'iview/dist/styles/iview.css' // 引入iview css样式
 import axios from 'axios' // 1、在这里引入axios
 import qs from 'qs' //解决参数无法传递
-import NProgress from 'nprogress'
+import NProgress from 'nprogress'   //前端进度条插件
 import 'nprogress/nprogress.css'
+import * as Socket from './myjs/socket';
+Vue.prototype.socket = Socket 
 
 Vue.prototype.$qs = qs;
 Vue.prototype.$axios = axios;

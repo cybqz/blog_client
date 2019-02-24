@@ -36,11 +36,11 @@
 </template>
  
 <script>
-	import Record from "../myjs/recorder/record-sdk";
-import { setInterval, clearInterval } from 'timers';
+    import Record from "../myjs/recorder/record-sdk";
 	export default {
 		name: "Record",
 		data() {
+            this.socket.sendSock(null,this.getConfigResult); 
 			return {
                 baseURL:'',
 		        logined:false,
@@ -52,6 +52,9 @@ import { setInterval, clearInterval } from 'timers';
 			};
 		},
 		methods: {
+            getConfigResult() {
+
+            },
             getVoices: function() {
                 let baseURL = this.$axios.defaults.baseURL;
                 let url = baseURL + "talkController/getVoices";
