@@ -53,35 +53,36 @@
 							<Message ref="pushMessage2" :parentComponent="parentComponent" @fatherMethod="handlerPush"></Message>
 						</div>
 						<div class="bgccc mrt20" v-show='pinlun1 && commentblogId==item.id'>
-							<ul class="message" v-for="item in replyList">
+							<ul style="position: relative;" class="message" v-for="itemList in replyList">
 								<div class="img">
 									<span>
-										<Avatar :src="baseURL+item.commentUserImage" />
+										<Avatar :src="baseURL+itemList.commentUserImage" />
 									</span>
 								</div>
 								<div class="img-right">
 									<div class="userReply">
-										<span class="user">{{item.commentUserName}}</span>
+										<span class="user">{{itemList.commentUserName}}</span>
 										回复
-										<span class="user">{{item.userName}}</span>
+										<span class="user">{{itemList.userName}}</span>
 									</div>
 									<div class="contentReply eclipes21">
-										{{item.commentContaint}}
+										{{itemList.commentContaint}}
 									</div>
 									<div class="time-agrue">
-										<span class="timeReply">{{item.commentDate | formTime}}</span>
+										<span class="timeReply">{{itemList.commentDate | formTime}}</span>
 										<span class="zanReply gost">
-											<Icon :class="logined?(item.fablous?'gost':'red') :'gost'" class="red tubiao pointer" type="md-thumbs-up" /> 
-											{{item.fablousCount}}
+											<Icon :class="logined?(itemList.fablous?'gost':'red') :'gost'" class="red tubiao pointer" type="md-thumbs-up" /> 
+											{{itemList.fablousCount}}
 										</span>
 										<span class="huifu blue">
-											<span v-show="!repy2" class="pointer" @click="repy2 = true;repy1=false;">回复</span>
-											<span v-show="repy2" class="pointer" @click="repy2 = false;repy1=false;">取消回复</span>
+											<span v-show="!repy2 || blogId2!=itemList.id" class="pointer" @click="showReply2(itemList.id)">回复</span>
+											<span v-show="repy2 && blogId2==itemList.id" class="pointer" @click="repy2 = false;repy1=false;">取消回复</span>
 										</span>
 									</div>
-									<div v-if='repy2' class="reply">
+									<div v-if='repy2  && blogId2==itemList.id' class="reply">
 										<Message ref="pushMessage3" @fatherMethod="handlerPush" :parentComponent="parentComponent"></Message>
 									</div>
+									<div style="position: absolute;left: 0;bottom: 0;">213</div>
 								</div>
 							</ul>
 						</div>
@@ -112,6 +113,7 @@ export default {
 		messageList:[],
 		replyList:[],
 		blogId:0,
+		blogId2:0,
 		commentblogId:0,
     }
   },
@@ -156,6 +158,13 @@ export default {
 		  this.repy2=false;
 		  this.blogId = blogId;
 		  
+	  },
+	  //点击回复2展示回复框
+	  showReply2(blogId){
+	  		  this.repy1 = false;
+	  		  this.repy2=true;
+	  		  this.blogId2 = blogId;
+	  		  
 	  },
 	  //点击评论展示回复列表
 	  showReplyList(blogId){
@@ -230,7 +239,6 @@ export default {
 	  },
 	  //发布留言方法2
 	  push2(message){
-		  console.log(this.$refs.pushMessage2)
 		  let baseURL = this.$axios.defaults.baseURL;
 		  let url = baseURL + "messageController/reply";
 		  let params = {
@@ -252,7 +260,26 @@ export default {
 	  },
 	  //发布留言方法3
 	  push3(message){
-		  alert(3)
+		   console.log(this.$refs.pushMessage2)
+		  let baseURL = this.$axios.defaults.baseURL;
+		  let url = baseURL + "messageController/innerReply";
+		  let params = {
+		  			  commentContaint:message,
+		  			  id:this.blogId2,
+					  
+		  };
+		  this.$axios({method:'post', url:url, params:params})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+		  		  this.$Message.success(response.data.msg);
+		  				  // this.getReplyList();
+		      }else{
+		          this.$Message.error(response.data.msg);
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
 	  },
 	  
   },
