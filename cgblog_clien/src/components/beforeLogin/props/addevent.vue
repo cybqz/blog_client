@@ -50,7 +50,7 @@
 		</div>
         <div class="footer">
 			<span class="pushText" @click="cancel()">取消</span>
-			<span class="pushText">确认</span>
+			<span class="pushText" @click="confirom()">确认</span>
 		</div>
 	</div>
 </template>
@@ -74,14 +74,35 @@ export default {
 			default:1
 		},
   },
+  props:{
+      eventUrl: {
+      type: String,
+      default: '',
+    }
+  },
   watch:{
   },
   methods:{
 	  //取消发布并参数重置
 	  cancel(){
-		  console.log(this.$parent)
-		  this.$parent.eventModel = false;
-	  },
+          this.$emit('fatherClose',false);
+      },
+      //发布
+      confirom(){
+          this.$emit('fatherClose',false);
+          let params = {title: this.title,containt: this.message};
+		  this.$axios({method:'post', url:this.eventUrl, params:params})
+		  .then((response) => {
+		      let data = response.data;
+		      if( response.status == 200){
+				  this.$Message.success(response.data.msg);
+		      }else{
+		          this.$Message.error(response.data.msg);
+		      }
+		  }).catch((error) => {
+		      console.log(error)
+		  });
+      },
 	  //获取表情
       getEmoticon(){
           let baseURL = this.$axios.defaults.baseURL;

@@ -37,24 +37,22 @@
  
 <script>
     import Record from "../myjs/recorder/record-sdk";
+    import Socket from "../myjs/socket";
 	export default {
 		name: "Record",
 		data() {
-            this.socket.sendSock(null,this.getConfigResult); 
 			return {
                 baseURL:'',
 		        logined:false,
 				isFinished: false,
-				audio: "",
+                audio: "",
+                socket: new Socket(),
                 recorder: new Record(),
                 voice: null,
                 voiceList: []
 			};
 		},
 		methods: {
-            getConfigResult() {
-
-            },
             getVoices: function() {
                 let baseURL = this.$axios.defaults.baseURL;
                 let url = baseURL + "talkController/getVoices";
@@ -64,7 +62,6 @@
                     if( response.status == 200){
                         if(data.validate){
                             this.voiceList = data.data;
-                            console.log(this.voiceList);
                         }else{
                             this.$Message.error(data.msg);
                         }
@@ -137,6 +134,7 @@
         beforeMount(){
             this.logined= !localStorage.getItem('user')?false:true;
             this.baseURL = this.$axios.defaults.baseURL;
+            this.socket.initWebSocket(this.socket.urlTalk);
         },
         mounted(){
             this.getVoices();

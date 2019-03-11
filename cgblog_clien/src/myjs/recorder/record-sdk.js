@@ -1,4 +1,4 @@
-import Recorder from "./Recorder";
+
 export default class Record {
     startRecord(param) {
         let self = this;

@@ -3,7 +3,7 @@
         <div class="eventModel">
             <Modal v-model="eventModel" width="550" title="添加趣事">
                 <div style="text-align:center">
-					<AddEvent></AddEvent>
+					<AddEvent @fatherClose="closeEventModel" :eventUrl='eventUrl'></AddEvent>
                 </div>
                 <div slot="footer" style="text-align:center;">
                     <!-- <Button style="margin:0 20px;" @click="eventCancel">取消</Button>
@@ -58,6 +58,7 @@ export default {
             //添加
             eventModel: false,
             controllrt:'blogController/',
+            baseURL: '',
             tatal:0,
             pageSize:10,
             pageNo:1,
@@ -65,6 +66,7 @@ export default {
             continueGetData:true,
             parentComponent:1,
             logined:false,
+            eventUrl:''
         }
     },
     watch:{
@@ -81,6 +83,9 @@ export default {
         //发布事件
         eventConfirm(){
              this.eventModel = false;
+        },
+        closeEventModel(flG){
+            this.eventModel = flG;
         },
         getData(){
             if(this.continueGetData){
@@ -152,6 +157,8 @@ export default {
     },
     beforeMount(){
         this.logined= !localStorage.getItem('user')?false:true;
+        this.baseURL = this.$axios.defaults.baseURL;
+        this.eventUrl = this.baseURL + "blogController/publish";
     },
     mounted() {
         this.getData();
