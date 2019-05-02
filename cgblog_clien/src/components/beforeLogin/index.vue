@@ -2,26 +2,10 @@
 	<div class="containt">
 		<div class="left">
 			<!-- 导航模块组件 -->
-			<Interest v-if='$route.query.tabId == 0'>
-			</Interest>
-			
-			<Read v-if='$route.query.tabId == 1'>
-			</Read>
-			
-			<Taste v-if='$route.query.tabId == 2'>
-			</Taste>
-			
-			<Travel v-if='$route.query.tabId == 3'>
-			</Travel>
-			
-			<Learn v-if='$route.query.tabId == 4'>
-			</Learn>
-			
-			<Diary v-if='$route.query.tabId == 5'>
-			</Diary>
-			
-			<MessageBoard v-if='$route.query.tabId == 6'>
-			</MessageBoard>
+			<Interest v-if='$route.query.tabId == 0'></Interest>
+			<Read v-if='$route.query.tabId == 1'></Read>
+			<Learn v-if='$route.query.tabId == 2'></Learn>
+			<MessageBoard v-if='$route.query.tabId == 3'></MessageBoard>
 			
 		</div>
 		<div class="right shadow">
@@ -34,10 +18,7 @@
 <script>
 import Interest from "@/components/beforeLogin/interesting.vue";
 import Read from "@/components/beforeLogin/reading.vue";
-import Taste from "@/components/beforeLogin/tasting.vue";
-import Travel from "@/components/beforeLogin/travel.vue";
 import Learn from "@/components/beforeLogin/learning.vue";
-import Diary from "@/components/beforeLogin/diary.vue";
 import MessageBoard from "@/components/beforeLogin/message-board.vue";
 export default {
   name: 'beforeLogin',
@@ -73,10 +54,7 @@ export default {
   components: {
 	Interest,
 	Read,
-	Taste,
-	Travel,
 	Learn,
-	Diary,
 	MessageBoard
   },
 }

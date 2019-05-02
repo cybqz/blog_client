@@ -149,20 +149,11 @@ export default {
 				name:'点悦',
 				num:1
 			},{
-				name:'点味',
+				name:'点知',
 				num:2
 			},{
-				name:'点途',
-				num:3
-			},{
-				name:'点知',
-				num:4
-			},{
-				name:'个人日记',
-				num:5
-			},{
 				name:'留言板',
-				num:6
+				num:3
 			}],
 			formLogin: {
 					userName: '',
