@@ -18,8 +18,8 @@ Vue.prototype.$Message = Message
 
 axios.defaults.timeout = 10000;// 在超时前，所有请求都会等待 5 秒
 axios.defaults.headers.post['Content-Type']= 'application/x-www-form-urlencoded;charset=UTF-8';// 配置请求头
-// axios.defaults.baseURL = 'http://192.168.1.113:8088/blogserver/';// 配置接口地址tset
-axios.defaults.baseURL = 'http://192.168.1.101:9090/blog/';// 配置接口地址
+// axios.defaults.baseURL = 'http://192.168.1.103:8088/blogserver/';// 配置接口地址tset
+axios.defaults.baseURL = 'http://192.168.1.103:9090/blog/';// 配置接口地址
 axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false;
