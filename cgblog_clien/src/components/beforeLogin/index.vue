@@ -2,10 +2,10 @@
 	<div class="containt">
 		<div class="left">
 			<!-- 导航模块组件 -->
-			<Interest v-if='$route.query.tabId == 0'></Interest>
-			<Read v-if='$route.query.tabId == 1'></Read>
-			<Learn v-if='$route.query.tabId == 2'></Learn>
-			<MessageBoard v-if='$route.query.tabId == 3'></MessageBoard>
+			<Interest v-if='$route.path == "/home/beforeLogin/interesting"'></Interest>
+			<Read v-if='$route.path == "/home/beforeLogin/reading"'></Read>
+			<Learn v-if='$route.path == "/home/beforeLogin/learning"'></Learn>
+			<MessageBoard v-if='$route.path == "/home/beforeLogin/messageBoard"'></MessageBoard>
 			
 		</div>
 		<div class="right shadow">
@@ -57,6 +57,9 @@ export default {
 	Learn,
 	MessageBoard
   },
+  mounted() {
+  	console.log(this.$route)
+  }
 }
 </script>
 

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'beforeLogin',
+  name: 'learning',
   data () {
     return {
     }

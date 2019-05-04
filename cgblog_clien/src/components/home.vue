@@ -201,12 +201,30 @@ export default {
         },
 		changeNavTab(num){
 			this.tabActive = num;
-			this.$router.push({
-				path: '/home/beforeLogin',
-				query: {
-					tabId: num
-				}
-			})
+			switch (num){
+				case 0:
+					this.$router.push({
+						path: '/home/beforeLogin/interesting',
+					})
+					break;
+				case 1:
+					this.$router.push({
+						path: '/home/beforeLogin/reading',
+					})
+					break;
+				case 2:
+					this.$router.push({
+						path: '/home/beforeLogin/learning',
+					})
+					break;
+				case 3:
+					this.$router.push({
+						path: '/home/beforeLogin/messageBoard',
+					})
+					break;		
+				default:
+					break;
+			}
 		},
 		//登录事件
 		handleLogin(formLogin) {
@@ -235,7 +253,7 @@ export default {
 							}
 						}).catch((error) => {
 								console.log(error)
-						});
+						})
 						this.login_loading = false;
 					} else {
 							this.$Message.error('Valid Fail!');

@@ -99,7 +99,7 @@
 <script>
 import Message from "@/components/beforeLogin/props/message.vue";
 export default {
-  name: 'message-board',
+  name: 'messageBoard',
   data () {
     return {
 		baseURL:'',
