@@ -235,7 +235,7 @@ export default {
 							}
 						}).catch((error) => {
 								console.log(error)
-						})
+						});
 						this.login_loading = false;
 					} else {
 							this.$Message.error('Valid Fail!');
