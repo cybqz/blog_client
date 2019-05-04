@@ -30,7 +30,7 @@
 						<div class="about">
 							<div class="spaceR">
 								<span class="left">
-									作者：<span class="organe pointer">{{item.author}}</span>
+									作者：<span class="organe pointer">{{item.authorName}}</span>
 								</span>
 								<span class="right">
 									<span><Icon @click="doComment(item.id)" :class="logined?(item.comment?'gost':'red') :'gost'" class='icon pointer' type="ios-text" />{{item.commentCount}}</span>
