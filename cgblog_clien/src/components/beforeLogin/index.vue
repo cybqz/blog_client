@@ -10,7 +10,43 @@
 		</div>
 		<div class="right shadow">
 			<!-- 右侧简介部分 -->
-			<span @click="test()" style="display: inline-block;width: 40px;height:30px; background: skyblue;cursor: pointer;">按钮</span>
+			<div  class="user">
+				<div class="touxiang">
+					<span>
+						<img :src="this.$axios.defaults.baseURL+user.image" >
+					</span>
+				</div>
+				<div v-if="user" class="about">
+					<div class="name">{{user.name}}</div>
+					<div v-if="user.introduce" class="introduce" @click="changeIntroduce(1)">
+						{{user.introduce}} 
+						<Icon class='ml10' type="ios-create-outline" />
+					</div>
+					<div v-else class="introduce" @click="changeIntroduce(2)">
+						文字，让我们更懂你让我们更懂你让我们更懂你让我们更懂你...
+						<Icon class='ml10' type="ios-nutrition" />
+					</div>
+				</div>
+				<div v-else class="about">
+					456
+				</div>
+				<div class="blog">
+					
+				</div>
+			</div>
+			
+		</div>
+		<div>
+			<Modal v-model="introduceModel" width="550" :title="introduce">
+			    <div style="text-align:center">
+					<Input class="textarea shadow" v-model="introduceMessage" type="textarea" placeholder="介绍一下吧.........."
+					       :autosize="{minRows: 2,maxRows: 2}" />
+			    </div>
+			    <div slot="footer" style="text-align:center;">
+			        <Button style="margin:0 20px;" @click="introduceCancel">取消</Button>
+			        <Button type="primary" style="margin:0 20px;" @click="introduceConfirm">发布</Button>
+			    </div>
+			</Modal>
 		</div>
 	</div>
 </template>
@@ -24,6 +60,10 @@ export default {
   name: 'beforeLogin',
   data () {
     return {
+		user:{},
+		introduceModel:false,
+		introduce:'添加简介',
+		introduceMessage:'',
     }
   },
   watch:{
@@ -35,6 +75,17 @@ export default {
 // 		},
   },
   methods:{
+		changeIntroduce(num){
+			this.Introduce = num == 1?'添加简介':'编辑简介';
+			this.introduceModel = true;
+		},
+		introduceCancel(){
+			this.introduceMessage = this.user.introduce;
+			this.introduceModel = false;
+		},
+		introduceConfirm(){
+			this.introduceModel = false;
+		},
 		test(){
 			let url = this.$axios.defaults.baseURL + "messageController/reply";
 			let param = {
@@ -50,6 +101,16 @@ export default {
 					console.log(error)
 			})
 		},
+  },
+  created() {
+  	this.user = JSON.parse(localStorage.getItem('user'));
+	if(this.user.introduce){
+		this.introduceMessage = this.user.introduce;
+	}else{
+		this.introduceMessage = '';
+	}
+	console.log(this.user)
+	
   },
   components: {
 	Interest,
@@ -80,6 +141,43 @@ export default {
 			position: fixed;
 			top: 80px;
 			right: 10%;
+		}
+	}
+	.user{
+		.touxiang{
+			padding: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			span{
+				display: flex;
+				width: 90px;
+				height: 90px;
+				justify-content: center;
+				align-items: center;
+				border-radius: 50%;
+				box-shadow: 0 0 3px 0 #ccc;
+				img{
+					width: 80px;
+					height: 80px;
+					border-radius: 50%;
+				}
+			}
+		}
+		.about{
+			text-align: center;
+			.name{
+				font-size: 20px;
+				color: orange;
+			}
+			.introduce{
+				padding: 20px 40px;
+				font-size: 14px;
+				&:hover{
+					color: orange;
+					cursor: pointer;
+				}
+			}
 		}
 	}
 </style>
