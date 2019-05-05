@@ -315,7 +315,7 @@ export default {
   },
   beforeMount(){
       //查询、设置用户登录状态
-      let url = this.$axios.defaults.baseURL + "loginController/getUser";
+      let url = this.$axios.defaults.baseURL + "userController/getUser";
         let param = this.formLogin;
         this.$axios({method:'post', url:url, data:null})
         .then((response) => {
