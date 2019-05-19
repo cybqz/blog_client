@@ -67,12 +67,7 @@ export default {
     }
   },
   watch:{
-// 	    fromTab: {
-// 		  handler: function (val, oldVal) { 
-// 			  this.fromTab = val;
-// 		  },
-// 		  immediate: true
-// 		},
+
   },
   methods:{
 		changeIntroduce(num){
@@ -104,13 +99,16 @@ export default {
   },
   created() {
   	this.user = JSON.parse(localStorage.getItem('user'));
-	if(this.user.introduce){
-		this.introduceMessage = this.user.introduce;
+	debugger
+	if(this.user){
+		if(this.user.introduce){
+			this.introduceMessage = this.user.introduce;
+		}else{
+			this.introduceMessage = '';
+		}
 	}else{
-		this.introduceMessage = '';
+		this.user = {image:'headportrait/boy.png'};
 	}
-	console.log(this.user)
-	
   },
   components: {
 	Interest,
@@ -119,7 +117,6 @@ export default {
 	MessageBoard
   },
   mounted() {
-  	console.log(this.$route)
   }
 }
 </script>
