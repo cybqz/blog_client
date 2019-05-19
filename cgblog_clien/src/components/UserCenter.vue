@@ -46,7 +46,7 @@
                     </div>
                 </Upload>
                 <Modal title="View Image" v-model="visible">
-                    <img :src="'https://o5wwk8baw.qnssl.com/' + imgName + '/large'" v-if="visible" style="width: 100%">
+                    <img :src="userInfo.image" v-if="visible" style="width: 100%">
                 </Modal>
             </FormItem>
             <FormItem>
@@ -85,7 +85,6 @@ export default {
             this.visible = true;
         },
         handleRemove (file) {
-			debugger
             const fileList = this.$refs.upload.fileList;
 			const uploadList = this.uploadList;
 			this.uploadList.splice(uploadList.indexOf(file), 1);
@@ -104,7 +103,7 @@ export default {
         handleMaxSize (file) {
             this.$Notice.warning({
                 title: 'Exceeding file size limit',
-                desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+                desc: '文件' + file.name + ' 大小不能超过2M'
             });
         },
         handleBeforeUpload () {
