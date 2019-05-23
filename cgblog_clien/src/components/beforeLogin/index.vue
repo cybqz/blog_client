@@ -71,35 +71,42 @@ export default {
   },
   methods:{
 		changeIntroduce(num){
-			this.Introduce = num == 1?'添加简介':'编辑简介';
-			this.introduceModel = true;
+			if(this.user != null && this.user.name){
+				this.Introduce = num == 1?'添加简介':'编辑简介';
+				this.introduceModel = true;
+			}else{
+				this.$Message.error('登陆哟，等你哟！');
+			}
 		},
 		introduceCancel(){
 			this.introduceMessage = this.user.introduce;
 			this.introduceModel = false;
 		},
 		introduceConfirm(){
-			this.introduceModel = false;
-		},
-		test(){
-			let url = this.$axios.defaults.baseURL + "messageController/reply";
-			let param = {
-				blogId:'03a4fd08-d2ad-4a36-a079-32469f3d4ecc',
-                commentContaint:'CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018CYB&GFJ2018'
-			};
-			this.$axios.get(url, {params: param})
+			let url = this.$axios.defaults.baseURL + "userController/updateIntroduce";
+			this.user.introduce = this.introduceMessage;
+			let param = this.user;
+			this.$axios({method:'post', url:url, data:this.$qs.stringify(param)})
 			.then((response) => {
-					if( response.status == 200){
-                        this.$Message.info(response.data.msg);
+				if( response.status == 200){
+					let data = response.data;
+					if(data.validate){
+						this.introduceModel = false;
+						this.$Message.success(data.msg);
+						localStorage.setItem('user',JSON.stringify(this.user));
+					}else{
+						this.$Message.error(data.msg);
 					}
+				}else{
+					this.$Message.error('Fail!');
+				}
 			}).catch((error) => {
-					console.log(error)
-			})
-		},
+					console.log(error);
+			});
+		}
   },
   created() {
   	this.user = JSON.parse(localStorage.getItem('user'));
-	debugger
 	if(this.user){
 		if(this.user.introduce){
 			this.introduceMessage = this.user.introduce;
