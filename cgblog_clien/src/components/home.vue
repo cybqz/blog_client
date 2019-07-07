@@ -204,22 +204,22 @@ export default {
 			switch (num){
 				case 0:
 					this.$router.push({
-						path: '/home/beforeLogin/interesting',
+						path: '/home/index/interesting',
 					})
 					break;
 				case 1:
 					this.$router.push({
-						path: '/home/beforeLogin/reading',
+						path: '/home/index/reading',
 					})
 					break;
 				case 2:
 					this.$router.push({
-						path: '/home/beforeLogin/learning',
+						path: '/home/index/learning',
 					})
 					break;
 				case 3:
 					this.$router.push({
-						path: '/home/beforeLogin/messageBoard',
+						path: '/home/index/messageBoard',
 					})
 					break;		
 				default:
