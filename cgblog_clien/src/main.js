@@ -24,7 +24,13 @@ axios.defaults.withCredentials = true
 
 Vue.config.productionTip = false;
 
-Vue.use(iView), //使用iview组件
+Vue.use(iView); //使用iview组件
+
+import * as custom from './myjs/filters'
+
+Object.keys(custom).forEach(key => {
+  Vue.filter(key, custom[key])
+})
 
 NProgress.configure({ easing: 'ease', speed: 1000, showSpinner: false })
 router.beforeEach((to, from, next) => {

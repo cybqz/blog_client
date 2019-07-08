@@ -15,11 +15,11 @@ import notFound from '@/components/notFound'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  //mode: 'history',
   base: '/blog/',
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'home',
       component: home,
       children:[

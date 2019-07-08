@@ -186,17 +186,17 @@ export default {
   methods:{
         userCenter(){
            this.$router.push({
-			   path: '/home/userCenter',
+			   path: '/userCenter',
 		   })     
         },
         openingVIP(){
             this.$router.push({
-			   path: '/home/openingVIP',
+			   path: '/openingVIP',
 		    }) 
         },
         talk(){
             this.$router.push({
-			   path: '/home/talk',
+			   path: '/talk',
 		    }) 
         },
 		changeNavTab(num){
@@ -204,22 +204,22 @@ export default {
 			switch (num){
 				case 0:
 					this.$router.push({
-						path: '/home/index/interesting',
+						path: '/index/interesting',
 					})
 					break;
 				case 1:
 					this.$router.push({
-						path: '/home/index/reading',
+						path: '/index/reading',
 					})
 					break;
 				case 2:
 					this.$router.push({
-						path: '/home/index/learning',
+						path: '/index/learning',
 					})
 					break;
 				case 3:
 					this.$router.push({
-						path: '/home/index/messageBoard',
+						path: '/index/messageBoard',
 					})
 					break;		
 				default:
