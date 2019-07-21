@@ -2,8 +2,7 @@
 	<div>
 		<div class="topWrap">
 			<div class="top" >
-				<div class="logo">
-				</div>
+				<div class="logo"></div>
 				<div class="nav">
 					<div v-for="(item,index) in navTabs" :class="index == tabActive?'active':''">
 						<span @click="changeNavTab(item.num)">
@@ -373,7 +372,7 @@ export default {
 		z-index: 99;
 		.logo{
 			margin: 0 20px;
-			width: 140px;
+			width: 120px;
 			height: 60px;
 			border-radius: 50%;
 			background: url(../assets/img/gclogo.png);
@@ -382,12 +381,13 @@ export default {
 		}
 		.nav{
 			flex: 1;
-			display: flex;
+			//display: flex;
 			div{
 				width: 28%;
 				height: 60px;
 				line-height: 60px;
-				font-size: 16px;
+				font-size: 14px;
+				float: left;
 				text-align: center;
 				margin: 0 20px;
 				span{
