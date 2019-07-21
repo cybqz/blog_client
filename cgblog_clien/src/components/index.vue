@@ -6,9 +6,9 @@
 			<Read v-if='$route.path == "/index/reading"'></Read>
 			<Learn v-if='$route.path == "/index/learning"'></Learn>
 			<MessageBoard v-if='$route.path == "/index/messageBoard"'></MessageBoard>
-			
+
 		</div>
-		<!-- <div class="right shadow">
+		<div class="right shadow">
 			<div  class="user">
 				<div class="touxiang">
 					<span>
@@ -18,7 +18,7 @@
 				<div v-if="user" class="about">
 					<div class="name">{{user.name}}</div>
 					<div v-if="user.introduce" class="introduce" @click="changeIntroduce(1)">
-						{{user.introduce}} 
+						{{user.introduce}}
 						<Icon class='ml10' type="ios-create-outline" />
 					</div>
 					<div v-else class="introduce" @click="changeIntroduce(2)">
@@ -43,7 +43,7 @@
 			        <Button type="primary" style="margin:0 20px;" @click="introduceConfirm">发布</Button>
 			    </div>
 			</Modal>
-		</div> -->
+		</div>
 	</div>
 </template>
 
