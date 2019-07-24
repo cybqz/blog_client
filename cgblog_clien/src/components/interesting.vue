@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div class="eventModel">
-            <Modal v-model="eventModel" width="550" title="添加趣事">
+            <Modal v-model="eventModel" width="500" title="添加趣事">
                 <div style="text-align:center">
 					<AddEvent @fatherClose="closeEventModel" :eventUrl='eventUrl'></AddEvent>
                 </div>
@@ -42,6 +42,21 @@
 						</div>
 					</div>
 					<div v-if='true' class="imgDiv pointer">
+					</div>
+					<div class="aboutPhone">
+						<div class="spaceR">
+							<span class="left">
+								<span class=" span1 organe pointer">{{item.authorName}}</span>
+								<span class="span2 organe pointer">{{item.createtime | formatDate}}</span>
+							</span>
+							
+							<span class="right">
+								<span><Icon @click="doComment(item.id)" :class="logined?(item.comment?'gost':'red') :'gost'" class='icon pointer' type="ios-text" />{{item.commentCount}}</span>
+								<span><Icon @click="doFablous(item.id)" :class="logined?(item.fablous?'gost':'red') :'gost'" class='icon pointer' type="ios-heart" />{{item.fablousCount}}</span>
+							</span>
+						</div>
+						<div v-if='true' class="space">
+						</div>
 					</div>
 				</div>
 			</Scroll>
@@ -193,48 +208,117 @@ export default {
             vertical-align: top;
         }
     }
-	.intereting-wrap{
-		padding: 40px 0;
-		border-top: 1px dashed #ccc;
-		width: 100%;
-		display: flex;
-		height: 220px;
-		&:first-child{
-			border-top:none;
-		}
-		.imgDiv{
-			width: 210px;
-			height: 140px;
-			margin-right: 20px;
-			background: url(../assets/img/sy_img1.jpg);
-			background-size: cover;
-			flex: none;
-		}
-		.containDiv{
-			flex: 1;
-			.title{
-				height: 40px;
-				line-height: 40px;
-				text-align: left;
-				width: 80%;
-				font-size: 14px;
-				font-weight: bold;
+	@media screen and (min-width: 900px) {
+		.intereting-wrap{
+			padding: 40px 0;
+			border-top: 1px dashed #ccc;
+			width: 100%;
+			display: flex;
+			height: 220px;
+			&:first-child{
+				border-top:none;
 			}
-			.msg{
-				text-align: left;
+			.imgDiv{
+				width: 210px;
+				height: 140px;
+				margin-right: 20px;
+				background: url(../assets/img/sy_img1.jpg);
+				background-size: cover;
+				flex: none;
+			}
+			.aboutPhone{
+				display: none;
+			}
+			.containDiv{
+				flex: 1;
+				.title{
+					height: 40px;
+					line-height: 40px;
+					text-align: left;
+					width: 80%;
+					font-size: 14px;
+					font-weight: bold;
+				}
+				.msg{
+					text-align: left;
+					width: 100%;
+					padding-right: 20px;
+					font-size: 14px;
+					height: 60px;
+					line-height: 30px;
+				}
+				.about{
+					margin-top: 20px;
+					height: 20px;
+					line-height: 20px;
+					text-align: left;
+					font-size: 13px;
+					display: flex;
+					.space{
+						flex: none;
+						width: 0;
+						margin-right: 20px;
+					}
+					.spaceR{
+						flex: 1;
+						display: flex;
+						.right, .left{
+							flex: 1;
+							display: flex;
+							.span1{
+								width: 35%;
+							}
+							.span2{
+								flex: 1;
+							}
+						}
+						.organe{
+							color: orange;
+						}
+						.right{
+							display: flex;
+							span{
+								flex: 1;
+								.icon{
+									font-size: 20px;
+									vertical-align: middle;
+									margin-right: 5px;
+									&.gost{
+										color: #ccc;
+									}
+									&.red{
+										color: coral;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 900px) {
+		/* 移动端 */
+		.intereting-wrap{
+			// padding: 40px 0;
+			border-top: 1px dashed #ccc;
+			width: 100%;
+			&:first-child{
+				border-top:none;
+			}
+			.imgDiv{
 				width: 100%;
-				padding-right: 20px;
-				font-size: 14px;
-				height: 60px;
-				line-height: 30px;
+				height: 100PX;
+				background: url(../assets/img/sy_img1.jpg);
+				background-size: cover;
+				background-repeat: no-repeat;
 			}
-			.about{
+			.aboutPhone{
 				margin-top: 20px;
 				height: 20px;
 				line-height: 20px;
-				text-align: left;
-				font-size: 13px;
-				display: flex;
+				font-size: 0.6rem;
+				display: block;
 				.space{
 					flex: none;
 					width: 0;
@@ -243,11 +327,12 @@ export default {
 				.spaceR{
 					flex: 1;
 					display: flex;
-					.right, .left{
+					.left{
 						flex: 1;
 						display: flex;
 						.span1{
 							width: 35%;
+							text-align: left;
 						}
 						.span2{
 							flex: 1;
@@ -257,6 +342,7 @@ export default {
 						color: orange;
 					}
 					.right{
+						width: 40%;
 						display: flex;
 						span{
 							flex: 1;
@@ -272,9 +358,31 @@ export default {
 								}
 							}
 						}
+						
 					}
 				}
 			}
+			.containDiv{
+				width: 100%;
+				.title{
+					height: 40px;
+					line-height: 40px;
+					text-align: left;
+					width: 100%;
+					font-size: 14px;
+					font-weight: bold;
+				}
+				.msg{
+					text-align: left;
+					width: 100%;
+					padding-right: 20px;
+					font-size: 14px;
+					line-height: 30px;
+				}
+				.about{
+					display: none;
+				}
+			}
 		}
-	}
+	}	
 </style>

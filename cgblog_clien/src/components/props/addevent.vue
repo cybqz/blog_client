@@ -1,11 +1,11 @@
 <template>
 	<div>
 		<div class="title-top">
-			 <Input style="width: 450px;" class="rightline" v-model="title" placeholder="告诉我你的标题是啥子.........." />
+			 <Input style="width: 100%;" class="rightline" v-model="title" placeholder="告诉我你的标题是啥子.........." />
 		</div>
 		<div class="message-top">
 			<div class="comments rightline">
-			    <Input style="width: 450px;" class="textarea" v-model="message" type="textarea"
+			    <Input style="width: 100%;" class="textarea" v-model="message" type="textarea"
 				 placeholder="告诉我你的内容是啥子.........."
 			           :autosize="{minRows: 4,maxRows: 4}" />
 			    <div class="info">
@@ -176,6 +176,7 @@ export default {
 		display: inline-block;
 	}
     .comments{
+		width: 100%;
         position: relative;
         height: auto;
         border: 1px solid #ccc;
